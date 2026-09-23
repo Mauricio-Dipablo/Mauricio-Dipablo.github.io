@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mauricio Dipablo | Data Analyst & BI Specialist</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Acá se carga tu matriz de texto (Debe estar en la misma carpeta que este HTML) -->
+<script src="frames.js"></script>
+
+<style>
+  :root{
+    --bg:#000000;
+    --text-main:#ffffff;
+    --text-muted:#a0a0a0;
+    --accent:#3b82f6;      
+    --kw:#60a5fa;          
+    --str:#e0f2fe;         
+    --line:rgba(255,255,255,0.85); 
+    --sidebar-w:220px;
+    --content-max:1000px;
+    --sec-pad-x:56px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text-main);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+  }
+  a{color:inherit; text-decoration:none;}
+
+  .site{display:flex; min-height:100vh;}
+
+  .sidebar{
+    position:fixed; top:0; left:0; bottom:0;
+    width:var(--sidebar-w);
+    padding:56px 32px 48px 32px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    border-right:1px solid var(--line);
+    overflow:hidden;
+    z-index:10;
+    background-color: var(--bg);
+  }
+
+  .ascii-plasma-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    font-family: 'Fira Code', monospace;
+    font-size: 10px;
+    line-height: 10px;
+    white-space: pre;
+    color: rgba(255, 255, 255, 0.15); 
+    pointer-events: none; 
+    user-select: none;
+    overflow: hidden;
+  }
+
+  .sidebar-top, .sidebar-bottom {
+    position:relative;
+    z-index:2;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+  }
+  
+  .sidebar-top .side-name{font-size:1.05rem; font-weight:700;}
+  .sidebar-top .side-role{font-size:0.8rem; color:var(--text-muted); margin-top:4px;}
+
+  .side-nav{display:flex; flex-direction:column; gap:16px; margin-top:56px;}
+  .side-nav a{
+    font-size:0.88rem; color:var(--text-muted);
+    padding-left:14px; border-left:2px solid transparent;
+    margin-left:-16px;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .side-nav a.active{color:var(--text-main); border-left-color:var(--accent);}
+  .side-nav a:hover{color:var(--text-main);}
+
+  .sidebar-bottom .contact-row{display:flex; gap:14px;}
+  .sidebar-bottom .contact-row a{
+    display:flex; align-items:center; justify-content:center;
+    width:32px; height:32px; border-radius:7px;
+    color:var(--text-main); opacity:0.7;
+    transition:opacity .15s ease, background .15s ease;
+    cursor:pointer;
+  }
+  .sidebar-bottom .contact-row a:hover{opacity:1; background:rgba(255,255,255,0.12);}
+  .sidebar-bottom svg{width:16px; height:16px;}
+
+  main{
+    margin-left:var(--sidebar-w);
+    width:calc(100% - var(--sidebar-w));
+  }
+
+  section{position:relative; padding:56px var(--sec-pad-x);}
+  section:first-of-type{padding-top:56px;}
+
+  #proyectos .section-inner{max-width:none;}
+
+  .divider{position:absolute; top:0; left:0; right:0;}
+  .section-inner{max-width:var(--content-max);}
+
+  .sql-line{
+    font-family:'Fira Code', monospace;
+    font-size:1rem;
+    color:rgba(180,180,180,0.75); 
+    margin-bottom:22px;
+    letter-spacing:-0.01em;
+    opacity:0;
+    transition:opacity .2s ease;
+  }
+  .sql-line.active{opacity:1;}
+  .prompt{color:rgba(160,160,160,0.5);} 
+  .kw{color:var(--kw); font-weight:500; opacity:0.85;}  
+  .str{color:var(--str); opacity:0.85;}
+  .cursor{
+    display:inline-block; width:6px; height:13px;
+    background:rgba(160,160,160,0.45);
+    vertical-align:-2px; margin-left:1px;
+    animation:blink 0.9s step-end infinite;
+  }
+  .cursor.done{display:none;}
+  @keyframes blink{50%{opacity:0;}}
+
+  .stream-item{
+    opacity: 0 !important;
+    transform: translateY(-30px) !important;
+    transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .stream-item.revealed{
+    opacity: 1 !important; 
+    transform: translateY(0) !important;
+  }
+
+  .draw-line {
+    height: 1px;
+    background: #ffffff;
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .8s cubic-bezier(.4,0,.2,1);
+  }
+  .draw-line.grow{transform:scaleX(1);}
+
+/* ---------- Layout Hero ---------- */
+  #sobre-mi {
+    position: relative;
+    padding-bottom: 80px; 
+  }
+
+  .hero-container {
+    display: block;
+  }
+  
+  .hero-content {
+    max-width: 90%;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-avatar {
+    position: absolute;
+    bottom: 0; 
+    right: 0;  
+    z-index: 1;
+    opacity: 0; 
+    transition: opacity 2.5s ease-in-out; 
+    pointer-events: none;
+  }
+
+  .hero-avatar.visible {
+    opacity: 1; 
+  }
+
+  .ascii-video-container {
+    font-family: 'Fira Code', monospace;
+    font-size: 6px; 
+    line-height: 6px;
+    white-space: pre;
+    color: rgba(255, 255, 255, 0.9); 
+    text-shadow: 0 0 10px rgba(255,255,255,0.25);
+    text-align: right;
+  }
+
+  h1{font-size:2.8rem; font-weight:700; letter-spacing:-0.02em; margin-bottom:12px;}
+  .tagline{font-size:1.25rem; color:var(--accent); font-weight:500; margin-bottom:18px;}
+  .bio { font-size:1.15rem; color:var(--text-muted); max-width: 700px; margin-bottom:26px; }
+
+  /* ---------- Redes Comunes (Hero y Contacto) sin caja ---------- */
+  .contact-row-inline { 
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; 
+    gap: 22px; margin-top: 20px; 
+  }
+  .contact-row-inline a { 
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-main); opacity: 0.75; 
+    transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease; 
+    cursor: pointer;
+  }
+  .contact-row-inline a:hover { 
+    color: var(--accent); opacity: 1; transform: translateY(-3px);
+  }
+  .contact-row-inline svg { 
+    width: 28px; height: 28px; 
+  }
+
+  /* ---------- skills ---------- */
+  .skills-table{
+    display:grid; grid-template-columns:repeat(4, 1fr);
+    border-radius:8px; overflow:hidden;
+  }
+  .skill-header{
+    padding:14px 16px;
+    border-top:1px solid var(--line); border-right:1px solid var(--line); border-bottom:1px solid var(--line);
+    font-size:0.85rem; font-weight:600; color:var(--text-muted); text-align:center; letter-spacing:0.02em;
+  }
+  .skill-cell {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 84px;
+    border-right: 1px solid var(--line); 
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .skill-cell:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .skills-table { 
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 0fr 1fr 1fr;
+    transition: grid-template-columns 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
+  }
+
+  .skills-table.expanded { 
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
+  }
+
+  .skills-table > div { 
+    border-left: none !important; 
+  }
+  
+  .skills-table > div:nth-child(5n + 1) { 
+    border-left: 1px solid var(--line) !important; 
+  }
+
+  .extra-py { 
+    min-width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border: none !important;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, padding 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .skills-table.expanded .extra-py {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.4s ease 0.15s, padding 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .skills-table.expanded .skill-cell.extra-py {
+    border-right: 1px solid var(--line) !important;
+    border-bottom: 1px solid var(--line) !important;
+  }
+
+  .skills-table.expanded .skill-header.extra-py {
+    border-top: 1px solid var(--line) !important;
+    border-right: 1px solid var(--line) !important;
+    border-bottom: 1px solid var(--line) !important;
+    padding: 14px 16px !important;
+  }
+
+  .py-more-btn { position: relative; }
+  .py-more-btn img {
+    filter: blur(2.5px) grayscale(60%);
+    opacity: 0.4 !important;
+  }
+  .py-more-overlay {
+    position: absolute;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-main);
+    z-index: 2;
+    transition: color 0.2s ease;
+  }
+  .py-more-btn:hover img {
+    filter: blur(4px) grayscale(80%);
+    transform: scale(1.1);
+  }
+  .py-more-btn:hover .py-more-overlay {
+    color: var(--accent);
+  }
+
+  .skill-cell img {
+    max-width: 80px; 
+    max-height: 40px; 
+    object-fit: contain; 
+    opacity: 0.85;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  }
+
+  .skill-cell:hover img {
+    transform: translateY(-9px) scale(1.22);
+    opacity: 1;
+  }
+
+  .skill-cell::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 8px;
+    font-size: 0.72rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: var(--text-main);
+    letter-spacing: 0.02em;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .skill-cell:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---------- proyectos ---------- */
+  .projects-list{display:flex; flex-direction:column; gap:44px;}
+  .project-divider{width:calc(100% + 2 * var(--sec-pad-x)); margin:0 calc(-1 * var(--sec-pad-x));}
+  .project-block{display:flex; gap:44px; align-items:flex-start;}
+  a.project-block{display:flex;}
+  a.project-block:hover .project-title{color:var(--accent);}
+  a.project-block:hover .project-media{border-color:var(--accent);}
+
+  .project-info {
+    flex: 1; 
+    min-width: 320px;
+  }
+  .project-title{font-size:1.35rem; font-weight:700; margin-bottom:14px; transition:color .15s ease;}
+  .project-desc{font-size:1.05rem; color:var(--text-muted); margin-bottom:16px;}
+  .project-link{display:inline-block; margin-top:12px; font-size:0.95rem; color:var(--accent); font-weight:600;}
+
+  .project-media {
+    flex: 1.2; 
+    position: relative; 
+    border-radius: 10px 0 0 10px; 
+    overflow: hidden;
+    background: #0d0d0d; 
+    border: 1px solid var(--line); 
+    border-right: none;
+    margin-right: calc(-1 * var(--sec-pad-x)); 
+    transition: border-color .2s ease;
+    line-height: 0;
+  }
+  .carousel-img {
+    position: relative; 
+    width: 100%; 
+    height: auto; 
+    display: block;
+    opacity: 1; 
+  }
+  .carousel-img.active{opacity:1;}
+
+  .project-block.placeholder{opacity:0.55;}
+  .project-block.placeholder .project-title{color:var(--text-muted);}
+  .placeholder-media {
+    aspect-ratio: 16 / 9;
+    min-height: 250px;
+  }
+
+  .exoplanet-media {
+    position: relative; 
+    background: #070707; 
+    overflow: hidden;
+  }
+  
+  .exoplanet-media .star {
+    position: absolute;
+    margin: 0;
+    line-height: 1;
+    font-family: monospace;
+    opacity: 0;
+    animation: twinkle infinite ease-in-out;
+    pointer-events: none; 
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.1; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); text-shadow: 0 0 5px currentColor; }
+  }
+  
+  .python-line { font-size: 0.85rem; margin-top: 18px; margin-bottom: 12px; }
+  .bar-chart { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-bottom: 16px; }
+  .bar-row { display: flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; font-size: 0.8rem; }
+  .bar-label { width: 70px; color: var(--text-main); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0;}
+  .bar-track {
+    flex-grow: 1;
+    height: 14px;
+    background: transparent;
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+    padding-left: 3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .bar-fill {
+    height: 100%;
+    width: 0%;
+    flex-shrink: 0;
+    background: linear-gradient(90deg, #1d4ed8, #60a5fa);
+    border-radius: 0 4px 4px 0;
+    transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .stream-item.revealed .bar-fill {
+    width: var(--w);
+  }
+
+  .bar-percent {
+    color: var(--text-muted);
+    font-family: 'Fira Code', monospace;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.6s;
+  }
+
+  .stream-item.revealed .bar-percent {
+    opacity: 1;
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 10px;
+  }
+  .faq-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .faq-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  .faq-q {
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+    color: var(--text-main);
+  }
+  .faq-a {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ---------- Contacto sin caja  ---------- */
+  #contacto { min-height: 50vh; display: flex; flex-direction: column; justify-content: center; }
+  #contacto .query-result { align-items: flex-start; text-align: left; } 
+  
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.9rem; 
+    margin-bottom: 24px; margin-top: 10px;
+  }
+  
+  .status-dot {
+    width: 6px; height: 13px; background: var(--kw);
+    animation: blink 0.9s step-end infinite;
+  }
+
+  /* ---------- Toast Notificación Correo ---------- */
+  .toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 20px);
+    background: var(--text-main); color: var(--bg);
+    padding: 12px 24px; border-radius: 4px;
+    font-family: 'Fira Code', monospace; font-size: 0.9rem; font-weight: 500;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 9999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  }
+  
+  .toast.show {
+    opacity: 1; transform: translate(-50%, 0);
+  }
+
+  @media (max-width:860px){
+    .sidebar{
+      position:relative; width:100%; height:auto; flex-direction:row; align-items:center; justify-content:space-between;
+      padding:20px 24px; border-right:none; border-bottom:1px solid var(--line);
+    }
+    .side-nav{flex-direction:row; margin-top:0; gap:18px;}
+    .side-nav a{padding-left:0; border-left:none; border-bottom:2px solid transparent;}
+    .side-nav a.active{border-left-color:transparent; border-bottom-color:var(--accent);}
+    .sidebar-bottom{display:none;}
+    .site{flex-direction:column;}
+    main{margin-left:0; width:100%;}
+    section{padding:36px 24px;}
+    
+    #sobre-mi { min-height: auto; }
+    .hero-content { max-width: 100%; }
+    .hero-avatar {
+      position: relative;
+      bottom: auto;
+      right: auto;
+      margin-top: 30px;
+    }
+    .ascii-video-container { text-align: center; }
+    
+    .project-block{flex-direction:column;}
+    .project-info {
+      flex: 1; 
+      min-width: 320px;
+    }
+    .project-media {
+      flex: 1.2; 
+      position: relative; 
+      aspect-ratio: 16 / 9; 
+      border-radius: 10px 0 0 10px; 
+      overflow: hidden;
+      background: #0d0d0d; 
+      border: 1px solid var(--line); 
+      border-right: none;
+      margin-right: calc(-1 * var(--sec-pad-x)); 
+      transition: border-color .2s ease;
+    }
+    .faq-grid { grid-template-columns: 1fr; }
+    :root{--sec-pad-x:24px;}
+  }
+
+</style>
+</head>
+<body>
+
+<div class="site">
+
+  <aside class="sidebar">
+    <div class="ascii-plasma-bg" id="ascii-bg"></div>
+
+    <div class="sidebar-top">
+      <div class="side-name">Mauricio Dipablo</div>
+      <div class="side-role">Data Analyst</div>
+      <nav class="side-nav">
+        <a href="#sobre-mi" data-section="sobre-mi" class="active">Sobre mí</a>
+        <a href="#skills" data-section="skills">Herramientas</a>
+        <a href="#proyectos" data-section="proyectos">Proyectos</a>
+        <a href="#faq" data-section="faq">FAQ</a>
+        <a href="#contacto" data-section="contacto">Contacto</a>
+      </nav>
+    </div>
+    <div class="sidebar-bottom">
+      <div class="contact-row">
+        <a href="https://github.com/Mauricio-Dipablo" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.08.78 2.18 0 1.57-.01 2.84-.01 3.23 0 .31.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/mauricio-dipablo/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+        </a>
+        <a onclick="copyEmail(event)" aria-label="Copiar Correo Gmail" title="Copiar correo">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <section id="sobre-mi">
+      <div class="section-inner">
+        <div class="sql-line">
+          <span class="prompt">&gt;&nbsp;</span><span class="typing-sql" data-sql="SELECT candidate, role, location FROM talent_pool WHERE role = 'Data Analyst';"></span><span class="cursor"></span>
+        </div>
+        
+        <div class="query-result hero-container">
+          <div class="hero-content">
+            <h1 class="stream-item" id="hero-name">Mauricio Dipablo</h1>
+            <div class="tagline stream-item">Data Analyst & BI Developer</div>
+            <p class="bio stream-item">
+                Soy estudiante de <strong>Ingeniería Electromecánica</strong> enfocado en
+                <strong>Data Analytics y Business Intelligence</strong>. Me interesa transformar
+                datos en información clara que ayude a entender problemas, detectar oportunidades
+                y tomar mejores decisiones.
+              </p>
+
+              <p class="bio stream-item">
+                Trabajo principalmente con <strong>Power BI</strong> y <strong>SQL</strong>,
+                combinando análisis, visualización y pensamiento lógico para desarrollar
+                soluciones de datos.
+              </p>
+
+            <div class="contact-row-inline stream-item">
+              <a href="https://github.com/Mauricio-Dipablo" target="_blank" rel="noopener" aria-label="GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.08.78 2.18 0 1.57-.01 2.84-.01 3.23 0 .31.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+              </a>
+              <a href="https://www.linkedin.com/in/mauricio-dipablo/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg viewBox="2.5 2.5 19 19" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+              </a>
+              <a onclick="copyEmail(event)" aria-label="Copiar Correo Gmail" title="Copiar correo">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="hero-avatar">
+            <div id="ascii-avatar-container" class="ascii-video-container"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="divider draw-line"></div>
+      <div class="section-inner">
+        <div class="sql-line">
+          <span class="prompt">&gt;&nbsp;</span><span class="typing-sql" data-sql="SELECT tool, mastery FROM tech_stack ORDER BY mastery DESC;"></span><span class="cursor"></span>
+        </div>
+        <div class="query-result">
+        <div class="skills-table" id="skills-grid">
+            <div class="skill-header stream-item" data-diag="0">BI &amp; Viz</div>
+            <div class="skill-header stream-item" data-diag="1">Python</div>
+            <div class="skill-header extra-py">+Librerías</div>
+            <div class="skill-header stream-item" data-diag="2">Data &amp; Cloud</div>
+            <div class="skill-header stream-item" data-diag="3">Ingeniería</div>
+
+            <div class="skill-cell stream-item" data-diag="1" title="Power BI"><img src="images/powerbi_logo.webp" alt="Power BI"></div>
+            <div class="skill-cell stream-item" data-diag="2" title="Scikit learn"><img src="images/Scikit_learn_logo.webp" alt="Python"></div>
+            <div class="skill-cell extra-py" title="Seaborn"><img src="images/seaborn_logo.webp" alt="Scikit-Learn"></div> 
+            <div class="skill-cell stream-item" data-diag="3" title="MySQL"><img src="images/mysql_logo.webp" alt="MySQL"></div>
+            <div class="skill-cell stream-item" data-diag="4" title="AutoCAD"><img src="images/autocad_logo.webp" alt="AutoCAD"></div>
+
+            <div class="skill-cell stream-item" data-diag="2" title="Kepler.gl"><img src="images/keplergl_logo.webp" alt="Kepler.gl"></div>
+            <div class="skill-cell stream-item" data-diag="3" title="Pandas"><img src="images/pandas_logo.webp" alt="Pandas"></div>
+            <div class="skill-cell extra-py" title="Matplotlib"><img src="images/matplotlib_logo.webp" alt="Matplotlib"></div> 
+            <div class="skill-cell stream-item" data-diag="4" title="Azure"><img src="images/azure_logo.webp" alt="Azure"></div>
+            <div class="skill-cell stream-item" data-diag="5" title="SolidWorks"><img src="images/solidworks_logo.webp" alt="SolidWorks"></div>
+
+            <div class="skill-cell stream-item" data-diag="3" title="Excel"><img src="images/excel_logo.webp" alt="Excel"></div>
+            
+            <div class="skill-cell stream-item py-more-btn" data-diag="4" title="Ver más librerías" id="py-expand-btn">
+              <img src="images/beautifulsoup_logo.webp" alt="BeautifulSoup Extra">
+              <div class="py-more-overlay">+2</div>
+            </div>
+            
+            <div class="skill-cell extra-py" title=""><img src="" alt=""></div> 
+            
+            <div class="skill-cell stream-item" data-diag="5" title="Git & GitHub"><img src="images/github_logo.webp" alt="GitHub"></div>
+            <div class="skill-cell stream-item" data-diag="6" title="VS Code"><img src="images/VSCode_logo.webp" alt="VS Code"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="proyectos">
+      <div class="divider draw-line"></div>
+      <div class="section-inner">
+        <div class="sql-line">
+          <span class="prompt">&gt;&nbsp;</span><span class="typing-sql" data-sql="SELECT * FROM projects WHERE status = 'COMPLETED';"></span><span class="cursor"></span>
+        </div>
+        <div class="query-result">
+          <div class="projects-list">
+
+            <a class="project-block stream-item" href="https://github.com/Mauricio-Dipablo/Olist_Project-SQL-Power-Bi-kepler.gl" target="_blank" rel="noopener">
+              <div class="project-info">
+                <div class="project-title">Olist E-Commerce Analytics</div>
+                <p class="project-desc">
+                  Análisis end-to-end de más de 100.000 pedidos en marketplaces de Brasil. Reestructuración en MySQL, compresión del dataset geográfico (-98%) y mapas interactivos.
+                </p>
+                <div class="sql-line python-line">
+                  <span class="prompt">&gt;&gt;&gt;&nbsp;</span><span class="typing-sql" data-sql="import plot; draw_chart(stack)"></span><span class="cursor"></span>
+                </div>
+                <div class="query-result bar-chart">
+                  <div class="bar-row stream-item" style="--w: 50%;">
+                    <div class="bar-label">Power BI</div>
+                    <div class="bar-track">
+                      <div class="bar-fill"></div>
+                      <span class="bar-percent">50%</span>
+                    </div>
+                  </div>
+                  <div class="bar-row stream-item" style="--w: 30%;">
+                    <div class="bar-label">SQL</div>
+                    <div class="bar-track">
+                      <div class="bar-fill"></div>
+                      <span class="bar-percent">30%</span>
+                    </div>
+                  </div>
+                  <div class="bar-row stream-item" style="--w: 10%;">
+                    <div class="bar-label">Kepler.gl</div>
+                    <div class="bar-track">
+                      <div class="bar-fill"></div>
+                      <span class="bar-percent">10%</span>
+                    </div>
+                  </div>
+                  <div class="bar-row stream-item" style="--w: 10%;">
+                    <div class="bar-label">GitHub</div>
+                    <div class="bar-track">
+                      <div class="bar-fill"></div>
+                      <span class="bar-percent">10%</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="project-link">Ver repositorio →</span>
+              </div>
+              <div class="project-media">
+                <img class="carousel-img active" src="images/olist-1.webp" alt="Olist dashboard" />
+              </div>
+            </a>
+
+            <div class="draw-line project-divider"></div>
+
+            <a class="project-block stream-item" href="https://github.com/Mauricio-Dipablo/Deteccion-de-fraude-en-tarjetas-de-credito" target="_blank" rel="noopener">
+              <div class="project-info">
+                <div class="project-title">Detección de Fraude en Tarjetas de Crédito</div>
+                <p class="project-desc">
+                  Modelo de Machine Learning entrenado para identificar transacciones fraudulentas. Manejo de datasets desbalanceados, entrenamiento de algoritmos y evaluación estadística.
+                </p>
+                <div class="sql-line python-line">
+                  <span class="prompt">&gt;&gt;&gt;&nbsp;</span><span class="typing-sql" data-sql="import plot; draw_chart(stack)"></span><span class="cursor"></span>
+                </div>
+                <div class="query-result bar-chart">
+                  <div class="bar-row stream-item" style="--w: 60%;">
+                    <div class="bar-label" style="width: 130px;" title="Pandas, Scikit-Learn, Matplotlib, Seaborn">
+                      Python <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: normal; margin-left: 2px;">(sklearn, pandas...)</span>
+                    </div>
+                    <div class="bar-track">
+                      <div class="bar-fill"></div>
+                      <span class="bar-percent">60%</span>
+                    </div>
+                  </div>
+                  <div class="bar-row stream-item" style="--w: 30%;">
+                    <div class="bar-label" style="width: 130px;">GitHub</div>
+                    <div class="bar-track">
+                      <div class="bar-fill"></div>
+                      <span class="bar-percent">30%</span>
+                    </div>
+                  </div>
+                  <div class="bar-row stream-item" style="--w: 10%;">
+                    <div class="bar-label" style="width: 130px;">Power BI</div>
+                    <div class="bar-track">
+                      <div class="bar-fill"></div>
+                      <span class="bar-percent">10%</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="project-link">Ver repositorio →</span>
+              </div>
+              <div class="project-media">
+                <img class="carousel-img active" src="images/fraud.webp" alt="Proyecto detección de fraude" />
+              </div>
+            </a>
+
+            <div class="draw-line project-divider"></div>
+
+            <div class="project-block placeholder stream-item">
+              <div class="project-info">
+                <div class="project-title">Sistema para detectar exoplanetas</div>
+                <p class="project-desc">Una red neuronal artificial capaz de analizar las curvas de luz de sistemas estelares. El modelo identificará las sutiles caídas en el brillo de las estrellas ocasionadas por tránsitos planetarios para predecir si hemos encontrado un nuevo exoplaneta.</p>
+                <span class="project-link" style="color: var(--text-muted); pointer-events: none;">[ Próximamente ]</span>
+              </div>
+              <div class="project-media placeholder-media exoplanet-media" id="exoplanet-container">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================== FAQ ================== -->
+    <section id="faq">
+      <div class="divider draw-line"></div>
+      <div class="section-inner">
+        <div class="sql-line">
+          <span class="prompt">&gt;&nbsp;</span><span class="typing-sql" data-sql="SELECT question, answer FROM faq;"></span><span class="cursor"></span>
+        </div>
+        <div class="query-result">
+          <div class="faq-grid">
+            
+            <div class="faq-card stream-item">
+              <div class="faq-q">¿Quién es Mauricio en una frase?</div>
+              <div class="faq-a">Un Data Analyst y BI Developer apasionado por limpiar datos desordenados y convertirlos en historias visuales, dashboards interactivos y modelos precisos para la toma de decisiones.</div>
+            </div>
+
+            <div class="faq-card stream-item">
+              <div class="faq-q">¿Qué tipo de problemas resuelves?</div>
+              <div class="faq-a">Todo aquello cuya respuesta se encuentra oculta en los datos: Desde el análisis de bases de datos inmensas y la automatización de reportes (ETL), hasta mapas de logística (Kepler.gl) y el entrenamiento de modelos de Machine Learning para detección de fraudes o anomalías.</div>
+            </div>
+
+            <div class="faq-card stream-item">
+              <div class="faq-q">¿Con qué herramientas trabajas a diario?</div>
+              <div class="faq-a">Mi stack principal es SQL, Python (Pandas, Scikit-learn, Seaborn, Matplotlib), Excel y Power BI. También manejo Azure, control de versiones (Git) y software CAD (AutoCAD/SolidWorks).</div>
+            </div>
+
+            <div class="faq-card stream-item">
+              <div class="faq-q">¿Cómo abordas un nuevo proyecto analítico?</div>
+              <div class="faq-a">Todo empieza con la pregunta de negocio. Luego audito y limpio los datos (EDA), defino un modelo relacional o predictivo, y finalmente construyo la visualización para responder: qué pasó, por qué pasó y qué hacer.</div>
+            </div>
+
+            <div class="faq-card stream-item">
+              <div class="faq-q">¿Qué tipo de roles o posiciones estás buscando?</div>
+              <div class="faq-a">Busco roles como Data Analyst, BI Developer o posiciones relacionadas. Estoy abierto a esquemas de trabajo full-time y parcial, modalidad remota.</div>
+            </div>
+
+            <div class="faq-card stream-item">
+              <div class="faq-q">¿Cuál es tu valor agregado?</div>
+              <div class="faq-a">Al tener background en ingeniería, no solo hago gráficos atractivos; entiendo la lógica técnica de los procesos, optimizo las consultas para que sean eficientes y priorizo la exactitud y robustez de los datos.</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================== CONTACTO ================== -->
+    <section id="contacto">
+      <div class="divider draw-line"></div>
+      <div class="section-inner">
+        <div class="sql-line">
+          <span class="prompt">&gt;&nbsp;</span><span class="typing-sql" data-sql="INSERT INTO conversations (with) VALUES ('you');"></span><span class="cursor"></span>
+        </div>
+        
+        <div class="query-result">
+          <div class="status-badge stream-item">
+            <div class="status-dot"></div>
+            Disponible para nuevas oportunidades
+          </div>
+          
+          <p class="contact-text stream-item">¿Tenés una vacante en tu equipo o un proyecto en mente? Escribime por cualquiera de estos canales y te respondo en el día.</p>
+          
+          <div class="contact-row-inline stream-item">
+            <a onclick="copyEmail(event)" aria-label="Copiar Correo Gmail" title="Copiar correo">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/mauricio-dipablo/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="2.5 2.5 19 19" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+            </a>
+            <a href="https://github.com/Mauricio-Dipablo" target="_blank" rel="noopener" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.08.78 2.18 0 1.57-.01 2.84-.01 3.23 0 .31.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="toast" class="toast">¡Correo copiado al portapapeles!</div>
+
+<script>
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const asciiAvatar = document.getElementById('ascii-avatar-container');
+  let currentFrame = 0;
+
+  function playAsciiAvatar() {
+    if (typeof CAFE_FRAMES !== 'undefined' && CAFE_FRAMES.length > 0) {
+      asciiAvatar.textContent = CAFE_FRAMES[currentFrame];
+      currentFrame = (currentFrame + 1) % CAFE_FRAMES.length;
+    }
+  }
+  
+  setInterval(playAsciiAvatar, 66);
+
+
+  function copyEmail(e) {
+    e.preventDefault();
+    navigator.clipboard.writeText("mauriciodipablo@gmail.com").then(() => {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    });
+  }
+
+  const plasmaContainer = document.getElementById('ascii-bg');
+  const sidebarEl = document.querySelector('.sidebar');
+  const plasmaChars = " .:-=+*#%@".split("");
+  
+  let plasmaTime = 0;
+  let plasmaCols = 0;
+  let plasmaRows = 0;
+
+  function updatePlasmaSize() {
+    const charW = 6;
+    const charH = 10;
+    plasmaCols = Math.floor(sidebarEl.clientWidth / charW) + 2;
+    plasmaRows = Math.floor(sidebarEl.clientHeight / charH) + 2;
+  }
+
+  window.addEventListener('resize', updatePlasmaSize);
+  updatePlasmaSize();
+
+  function drawPlasma() {
+    if (!plasmaCols || !plasmaRows) return;
+    let frame = "";
+    for (let y = 0; y < plasmaRows; y++) {
+      for (let x = 0; x < plasmaCols; x++) {
+        let v = Math.sin(x / 10 + plasmaTime);
+        v += Math.sin(y / 10 + plasmaTime);
+        v += Math.sin((x + y) / 10 + plasmaTime);
+        let cx = x - plasmaCols / 2;
+        let cy = y - plasmaRows / 2;
+        v += Math.sin(Math.sqrt(cx * cx + cy * cy) / 10 + plasmaTime);
+        let mapped = Math.floor(((v + 4) / 8) * (plasmaChars.length - 1));
+        if (mapped < 0) mapped = 0;
+        if (mapped >= plasmaChars.length) mapped = plasmaChars.length - 1;
+        frame += plasmaChars[mapped];
+      }
+      frame += "\n";
+    }
+    plasmaContainer.textContent = frame;
+    plasmaTime += 0.036; 
+    requestAnimationFrame(drawPlasma);
+  }
+
+  if (!prefersReduced) {
+    drawPlasma();
+  }
+
+  const SPEED = 7;
+  const KEYWORDS = new Set(['SELECT','FROM','WHERE','ORDER','BY','LIMIT','AND','OR','LIKE','AS','INSERT','INTO','VALUES','IMPORT']);
+
+  function tokenize(sql){
+    const tokens = [];
+    const re = /('[^']*'|\S+|\s+)/g;
+    let m;
+    while ((m = re.exec(sql)) !== null){
+      const chunk = m[0];
+      if (/^\s+$/.test(chunk)){
+        tokens.push({text: chunk, cls: null});
+      } else if (/^'[^']*'$/.test(chunk)){
+        tokens.push({text: chunk, cls: 'str'});
+      } else {
+        const word = chunk.replace(/[;,()[\]=.]/g, '').toUpperCase();
+        tokens.push({text: chunk, cls: KEYWORDS.has(word) ? 'kw' : null});
+      }
+    }
+    return tokens;
+  }
+
+  function flatten(tokens){
+    const chars = [];
+    tokens.forEach(tok => { for (const ch of tok.text) chars.push({ch, cls: tok.cls}); });
+    return chars;
+  }
+
+  function typeLine(lineEl, onDone, onHalfway){
+    const span = lineEl.querySelector('.typing-sql');
+    const cursor = lineEl.querySelector('.cursor');
+    const sql = span.getAttribute('data-sql');
+    const chars = flatten(tokenize(sql));
+    const halfPoint = Math.floor(chars.length / 2);
+    let halfFired = false;
+    let i = 0;
+    function step(){
+      if (i < chars.length){
+        const {ch, cls} = chars[i];
+        const safe = ch === ' ' ? '&nbsp;' : ch;
+        span.insertAdjacentHTML('beforeend', cls ? `<span class="${cls}">${safe}</span>` : safe);
+        i++;
+        if (!halfFired && i >= halfPoint){
+          halfFired = true;
+          if (onHalfway) onHalfway();
+        }
+        setTimeout(step, SPEED);
+      } else {
+        cursor.classList.add('done');
+        onDone();
+      }
+    }
+    step();
+  }
+
+  function growDividers(){
+    const lines = document.querySelectorAll('.draw-line');
+    lines.forEach((div, idx) => {
+      setTimeout(() => div.classList.add('grow'), idx * 150);
+    });
+
+    setTimeout(() => {
+      const avatar = document.querySelector('.hero-avatar');
+      if (avatar) avatar.classList.add('visible'); 
+    }, 800);
+  }
+
+  function revealStreamItems(container){
+    const items = Array.from(container.querySelectorAll('.stream-item'));
+    const isDiagonal = items.length && items[0].hasAttribute('data-diag');
+    if (isDiagonal){
+      items.forEach(item => {
+        const diag = Number(item.dataset.diag);
+        setTimeout(() => item.classList.add('revealed'), diag * 90);
+      });
+    } else {
+      items.forEach((item, idx) => {
+        setTimeout(() => item.classList.add('revealed'), idx * 70);
+      });
+    }
+  }
+
+  const sqlLines = Array.from(document.querySelectorAll('.sql-line'));
+
+  if (prefersReduced){
+    sqlLines.forEach(line => {
+      line.classList.add('active');
+      const span = line.querySelector('.typing-sql');
+      const tokens = tokenize(span.getAttribute('data-sql'));
+      span.innerHTML = tokens.map(t => t.cls ? `<span class="${t.cls}">${t.text.replace(/ /g,'&nbsp;')}</span>` : t.text.replace(/ /g,'&nbsp;')).join('');
+      line.querySelector('.cursor').classList.add('done');
+      revealStreamItems(line.nextElementSibling);
+    });
+    
+    growDividers();
+    const avatar = document.querySelector('.hero-avatar');
+    if (avatar) avatar.classList.add('visible'); 
+
+  } else {
+    function runSequence(index){
+      if (index >= sqlLines.length){
+        growDividers();
+        return;
+      }
+      const line = sqlLines[index];
+      line.classList.add('active');
+      const result = line.nextElementSibling;
+      typeLine(
+        line,
+        () => revealStreamItems(result),
+        () => runSequence(index + 1)
+      );
+    }
+    runSequence(0);
+  }
+
+  const navLinks = document.querySelectorAll('.side-nav a');
+  const sections = document.querySelectorAll('main section');
+
+  function updateActiveNav(){
+    const trigger = window.scrollY + window.innerHeight * 0.35;
+    let currentId = sections[0].id;
+    sections.forEach(sec => {
+      if (sec.offsetTop <= trigger) currentId = sec.id;
+    });
+    const scrolledToBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+    if (scrolledToBottom) currentId = sections[sections.length - 1].id;
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.dataset.section === currentId);
+    });
+  }
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking){
+      requestAnimationFrame(() => { updateActiveNav(); ticking = false; });
+      ticking = true;
+    }
+  });
+  window.addEventListener('load', updateActiveNav);
+  updateActiveNav();
+
+  const NAME_FRAMES = [
+    'Mauricio Dipablo','Muricio Dpablo','Mricio Dablo','Micio Dblo','Mcio Dlo',
+    'Mio Do','Mo D','M D','m D','Em D','EmeD','EmeDe','EmeDee'
+  ];
+
+  function playFrames(el, frames, msPerFrame, onComplete){
+    let i = 0;
+    function step(){
+      el.textContent = frames[i];
+      i++;
+      if (i < frames.length) setTimeout(step, msPerFrame);
+      else if (onComplete) onComplete();
+    }
+    step();
+  }
+
+  function startNameGlitchLoop(el){
+    const FRAME_SPEED = 45;
+    function forward(){
+      playFrames(el, NAME_FRAMES, FRAME_SPEED, () => {
+        setTimeout(backward, 1000);
+      });
+    }
+    function backward(){
+      playFrames(el, [...NAME_FRAMES].reverse(), FRAME_SPEED, () => {
+        setTimeout(forward, 3000);
+      });
+    }
+    forward();
+  }
+
+  const heroName = document.getElementById('hero-name');
+  if (heroName && !prefersReduced){
+    setTimeout(() => startNameGlitchLoop(heroName), 3200);
+  }
+
+  document.querySelectorAll('.project-media').forEach(media => {
+    const imgs = media.querySelectorAll('.carousel-img');
+    if (imgs.length < 2) return;
+    let current = 0;
+    setInterval(() => {
+      imgs[current].classList.remove('active');
+      current = (current + 1) % imgs.length;
+      imgs[current].classList.add('active');
+    }, 4000);
+  });
+
+  function initExoplanetStars() {
+    const container = document.getElementById('exoplanet-container');
+    if (!container) return; 
+
+    function getStarIcon() {
+      const chance = Math.random();
+      const starDistribution = [
+        [0.05, '•'],
+        [0.2, '*'],
+        [1, '.']
+      ];
+      return starDistribution.find(dist => chance < dist[0])[1];
+    }
+
+    function getColor() {
+      const chance = Math.random();
+      const colorDistribution = [
+        [0.3, '#ffffff'], 
+        [0.7, '#f0f0f0'], 
+        [1, '#d4d4d4'],
+      ];
+      return colorDistribution.find(dist => chance < dist[0])[1];
+    }
+
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    function createStar() {
+      const star = document.createElement('span'); 
+      star.innerHTML = getStarIcon();
+      star.classList.add('star');
+      
+      star.style.top = `${getRandomInt(0, 100)}%`;
+      star.style.left = `${getRandomInt(0, 100)}%`;
+      
+      star.style.color = getColor();
+      star.style.animationDelay = `${getRandomInt(0, 5)}s`;
+      star.style.animationDuration = `${getRandomInt(2, 6)}s`; 
+      
+      container.appendChild(star);
+    }
+
+    const starCount = 100;
+    for (let i = 0; i < starCount; i++) {
+      createStar();
+    }
+  }
+
+  initExoplanetStars();
+
+  const pyExpandBtn = document.getElementById('py-expand-btn');
+  if (pyExpandBtn) {
+    pyExpandBtn.addEventListener('click', function() {
+      const grid = document.getElementById('skills-grid');
+      
+      if (grid.classList.contains('expanded')) return;
+      
+      grid.classList.add('expanded');
+      
+      this.classList.remove('py-more-btn');
+      this.setAttribute('title', 'BeautifulSoup');
+      
+      const overlay = this.querySelector('.py-more-overlay');
+      if (overlay) overlay.remove();
+      
+      const img = this.querySelector('img');
+      img.style.filter = 'none';
+      img.style.opacity = ''; 
+    });
+  }
+
+</script>
+
+</body>
+</html>
