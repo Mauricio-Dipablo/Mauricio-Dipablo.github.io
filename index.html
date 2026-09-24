@@ -206,63 +206,7 @@
   .contact-row-inline svg { 
     width: 28px; height: 28px; 
   }
-  /* ---------- Botón Descargar CV ---------- */
-  .btn-cv {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 0 16px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    color: var(--text-main);
-    font-size: 0.88rem;
-    font-weight: 500;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-    white-space: nowrap;
-  }
-  .btn-cv:hover {
-    background: rgba(59, 130, 246, 0.15);
-    border-color: var(--accent);
-    color: #ffffff;
-  }
-  .btn-cv svg {
-    width: 16px;
-    height: 16px;
-  }
 
-  /* Ajuste de altura para la sección de contacto */
-  #contacto .btn-cv {
-    height: 50px;
-    border-radius: 12px;
-  }
-
-  /* Botón CV específico para el menú lateral (índice) */
-  .side-cv-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 24px;
-    padding: 9px 14px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--text-main);
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-    text-decoration: none;
-    transition: all 0.2s ease;
-  }
-  .side-cv-btn:hover {
-    border-color: var(--accent);
-    background: rgba(59, 130, 246, 0.15);
-    color: #fff;
-  }
-  .side-cv-btn svg { width: 14px; height: 14px; }
   /* ---------- skills ---------- */
   .skills-table{
     display:grid; grid-template-columns:repeat(4, 1fr);
@@ -620,10 +564,6 @@
         <a href="#proyectos" data-section="proyectos">Proyectos</a>
         <a href="#faq" data-section="faq">FAQ</a>
         <a href="#contacto" data-section="contacto">Contacto</a>
-        <a href="Mauricio_Dipablo_CV.pdf" download class="side-cv-btn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-          Descargar CV
-        </a>
       </nav>
     </div>
     <div class="sidebar-bottom">
@@ -636,6 +576,9 @@
         </a>
         <a onclick="copyEmail(event)" aria-label="Copiar Correo Gmail" title="Copiar correo">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+        </a>
+        <a href="CV_Mauricio_Dipablo.pdf" target="_blank" rel="noopener" aria-label="Descargar CV" title="Ver / Descargar CV">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM12 17l-4-4h2.5v-3h3v3H16l-4 4z"/></svg>
         </a>
       </div>
     </div>
@@ -666,15 +609,6 @@
               </p>
 
             <div class="contact-row-inline stream-item">
-              <div class="contact-row-inline stream-item">
-              <!-- Botón CV agregado aquí -->
-              <a href="Mauricio_Dipablo_CV.pdf" download class="btn-cv">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                Descargar CV
-              </a>
-
-              <a href="https://github.com/Mauricio-Dipablo" target="_blank" rel="noopener" aria-label="GitHub">
-                <!-- icono github... -->
               <a href="https://github.com/Mauricio-Dipablo" target="_blank" rel="noopener" aria-label="GitHub">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.08.78 2.18 0 1.57-.01 2.84-.01 3.23 0 .31.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
               </a>
@@ -683,6 +617,9 @@
               </a>
               <a onclick="copyEmail(event)" aria-label="Copiar Correo Gmail" title="Copiar correo">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+              </a>
+              <a href="CV_Mauricio_Dipablo.pdf" target="_blank" rel="noopener" aria-label="Descargar CV" title="Ver / Descargar CV">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM12 17l-4-4h2.5v-3h3v3H16l-4 4z"/></svg>
               </a>
             </div>
           </div>
@@ -709,7 +646,7 @@
             <div class="skill-header stream-item" data-diag="2">Data &amp; Cloud</div>
             <div class="skill-header stream-item" data-diag="3">Ingeniería</div>
 
-            <div class="skill-cell stream-item" data-diag="1" title="Power BI"><img src="images/PowerBI_Logo.webp" alt="Power BI"></div>
+            <div class="skill-cell stream-item" data-diag="1" title="Power BI"><img src="images/powerbi_logo.webp" alt="Power BI"></div>
             <div class="skill-cell stream-item" data-diag="2" title="Scikit learn"><img src="images/Scikit_learn_logo.webp" alt="Python"></div>
             <div class="skill-cell extra-py" title="Seaborn"><img src="images/seaborn_logo.webp" alt="Scikit-Learn"></div> 
             <div class="skill-cell stream-item" data-diag="3" title="MySQL"><img src="images/mysql_logo.webp" alt="MySQL"></div>
@@ -889,7 +826,7 @@
 
             <div class="faq-card stream-item">
               <div class="faq-q">¿Cómo integras la Inteligencia Artificial en tu flujo de trabajo?</div>
-              <div class="faq-a">Llevo 4 años utilizando activamente herramientas de IA para potenciar mi productividad, optimizar código y resolver problemas complejos. Aplico técnicas de prompt engineering para obtener resultados precisos de forma eficiente, siempre priorizando un uso responsable y optimizando al máximo el consumo de tokens.</div>
+              <div class="faq-a">Llevo 4 años utilizando IA para potenciar mi productividad, optimizar código y resolver problemas complejos. Aplico técnicas de <em>prompt engineering</em> para obtener resultados precisos de forma eficiente, priorizando un uso responsable y optimizando al máximo el consumo de recursos de cada modelo.</div>
             </div>
 
           </div>
@@ -914,15 +851,6 @@
           <p class="contact-text stream-item">¿Tenés una vacante en tu equipo o un proyecto en mente? Escribime por cualquiera de estos canales y te respondo en el día.</p>
           
           <div class="contact-row-inline stream-item">
-            <div class="contact-row-inline stream-item">
-            <!-- Botón CV agregado aquí -->
-            <a href="Mauricio_Dipablo_CV.pdf" download class="btn-cv">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              Descargar CV
-            </a>
-
-            <a onclick="copyEmail(event)" aria-label="Copiar Correo Gmail" title="Copiar correo">
-              <!-- icono gmail... -->
             <a onclick="copyEmail(event)" aria-label="Copiar Correo Gmail" title="Copiar correo">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
             </a>
@@ -931,6 +859,9 @@
             </a>
             <a href="https://github.com/Mauricio-Dipablo" target="_blank" rel="noopener" aria-label="GitHub">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.08.78 2.18 0 1.57-.01 2.84-.01 3.23 0 .31.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+            </a>
+            <a href="CV_Mauricio_Dipablo.pdf" target="_blank" rel="noopener" aria-label="Descargar CV" title="Ver / Descargar CV">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM12 17l-4-4h2.5v-3h3v3H16l-4 4z"/></svg>
             </a>
           </div>
         </div>
